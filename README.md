@@ -10,8 +10,6 @@ DocTrim is a web application that allows students to upload bulky PDF handouts a
 
 ## Tech Stack
 - **Frontend:** React, Vite, TypeScript, Tailwind CSS
-- **PDF Handling:** (Add your library choice here)
-- **Summarization:** (Mention if using any NLP APIs or custom model)
 
 ## Installation
 
