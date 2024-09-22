@@ -1,12 +1,27 @@
-import React from 'react'
+import React from "react";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import SignupPage from "./pages/authentication/SignupPage";
 
 const App: React.FC = () => {
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">DocTrim</h1>
-      <p className="text-gray-600">Upload your PDF to get started!</p>
-    </div>
-  )
-}
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4">DocTrim</h1>
+            <p className="text-gray-600">Upload your PDF to get started!</p>
+          </div>
+        }
+      />
 
-export default App
+      <Route path="/auth" element={<Outlet />}>
+        <Route index element={<Navigate to="register" replace />} />
+
+        <Route path="register" element={<SignupPage />} />
+      </Route>
+    </Routes>
+  );
+};
+
+export default App;
