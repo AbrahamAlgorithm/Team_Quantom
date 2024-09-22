@@ -9,4 +9,4 @@ def success_response(message: str, status_code: int, data: Optional[dict] = None
     }
     if data is not None:
         response["data"] = data
-    return Response(response, status_code=status_code)
+    return Response(response, status=status_code)

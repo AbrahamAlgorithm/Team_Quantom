@@ -15,7 +15,10 @@ from drf_yasg import openapi
     method="post",
     request_body=CreateUserSerializer,
     responses={
-        201: openapi.Response("Created Successfully", CreateUserSerializer),
+        201: openapi.Response(
+            "Created Successfully",
+            CreateUserSerializer,
+        ),
         400: "Bad Request",
     },
 )
