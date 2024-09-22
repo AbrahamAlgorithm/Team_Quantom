@@ -4,6 +4,7 @@ from account.v1.services import account_service
 
 User = get_user_model()
 
+
 class CreateUserSerializer(serializers.HyperlinkedModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -11,9 +12,10 @@ class CreateUserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ["username", "email", "password"]
 
-
     def create(self, validated_data):
         data = validated_data
         print(data)
-        user = account_service.create_user(username=data["username"], email=data["email"], password=data["password"])
+        user = account_service.create_user(
+            username=data["username"], email=data["email"], password=data["password"]
+        )
         return user
