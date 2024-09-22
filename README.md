@@ -1,50 +1,46 @@
-# React + TypeScript + Vite
+# DocTrim - PDF Summarizer App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DocTrim is a web application that allows students to upload bulky PDF handouts and receive a summarized version. Users can upload the document, view the summary on the site, and download the summarized version.
 
-Currently, two official plugins are available:
+## Features
+- Upload PDFs for summarization
+- Summarize large handouts into concise versions
+- View summarized text on the web app
+- Download summarized text as a PDF
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- **Frontend:** React, Vite, TypeScript, Tailwind CSS
+- **PDF Handling:** (Add your library choice here)
+- **Summarization:** (Mention if using any NLP APIs or custom model)
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisites
+- Node.js and npm installed
 
-- Configure the top-level `parserOptions` property like this:
+### Steps to Install and Run
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/DocTrim.git
+    ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Navigate to the project directory:
+    ```bash
+    cd DocTrim
+    ```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+4. Run the development server:
+    ```bash
+    npm run dev
+    ```
+
+5. Open your browser and go to:
+    ```
+    http://localhost:3000
+    ```
