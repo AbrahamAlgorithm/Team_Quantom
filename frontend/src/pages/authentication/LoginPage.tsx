@@ -1,13 +1,45 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import AuthImage from "../../assets/auth-image.png";
-import { IAuthInput } from "../../interfaces/auth.interface";
-import { Link } from "react-router-dom";
+import type { IAuthInput } from "../../interfaces/auth.interface";
+import { Link, useNavigate } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ReactConfetti from "react-confetti";
+import type { IWindowDimension } from "../../interfaces/globals.interface";
+import axiosInstance from "../../utils/axiosInstance";
+import { ColorRing } from "react-loader-spinner";
+import handleRequestError from "../../utils/error.handler";
+import toast from "react-hot-toast";
 
 function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loginSuccessful, setLoginSuccessful] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [windowDimension, setWindowDimension] = useState<IWindowDimension>({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  const loginFormRef = useRef<HTMLFormElement | null>(null);
+  const detechWindowSize = () => {
+    setWindowDimension({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    window.addEventListener("resize", detechWindowSize);
+    return () => window.removeEventListener("resize", detechWindowSize);
+  }, [windowDimension]);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   const {
     register,
@@ -15,7 +47,38 @@ function LoginPage() {
     handleSubmit,
   } = useForm<IAuthInput>();
   const onSubmit: SubmitHandler<IAuthInput> = async (data) => {
-    console.log({ data });
+    setIsLoading(true);
+
+    await axiosInstance
+      .post("/api/v1/auth/login/", data)
+      .then((response) => {
+        console.log(response.data);
+
+        setLoginSuccessful(true);
+
+        toast.success("Login successful, redirecting...");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 3000);
+
+        // clear form data
+
+        if (loginFormRef.current) {
+          loginFormRef.current.reset();
+        }
+      })
+      .catch((error) => {
+        if (loginFormRef.current) {
+          loginFormRef.current.password.value = "";
+        }
+
+        console.error(error);
+        handleRequestError(error);
+      });
+
+    // stop loading
+
+    setIsLoading(false);
   };
 
   return (
@@ -31,7 +94,7 @@ function LoginPage() {
 
           {/* Auth form */}
 
-          <form action="" onSubmit={handleSubmit(onSubmit)}>
+          <form action="" onSubmit={handleSubmit(onSubmit)} ref={loginFormRef}>
             {/* Form fields */}
 
             <div className="space-y-4 mt-6">
@@ -62,33 +125,35 @@ function LoginPage() {
 
               {/* Password input */}
 
-              <div className="space-y-1 relative">
+              <div className="space-y-1">
                 <label htmlFor="email" className="space-x-1">
                   <span className="text-[0.8rem] font-medium opacity-70">
                     Password
                   </span>
                   <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className={`w-full text-[0.75rem] border-[1.5px] py-2 px-4 rounded-lg outline-none transition-all duration-300 ${
-                    errors.password ? "border-red-300" : "border-gray-200"
-                  }`}
-                  placeholder="*****************"
-                  {...register("password", { required: true })}
-                  aria-invalid={errors.password ? "true" : "false"}
-                />
-                <span
-                  className="absolute top-1/2 right-4"
-                  role="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <VscEyeClosed size={20} />
-                  ) : (
-                    <VscEye size={20} />
-                  )}
-                </span>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className={`w-full text-[0.75rem] border-[1.5px] py-2 px-4 rounded-lg outline-none transition-all duration-300 ${
+                      errors.password ? "border-red-300" : "border-gray-200"
+                    }`}
+                    placeholder="*****************"
+                    {...register("password", { required: true })}
+                    aria-invalid={errors.password ? "true" : "false"}
+                  />
+                  <span
+                    className="absolute top-1/2 -translate-y-1/2 right-4"
+                    role="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <VscEyeClosed size={20} />
+                    ) : (
+                      <VscEye size={20} />
+                    )}
+                  </span>
+                </div>
                 {errors.password?.type === "required" && (
                   <p role="alert" className="text-[0.75rem] text-red-500">
                     Password is required
@@ -99,9 +164,21 @@ function LoginPage() {
 
             <button
               type="submit"
-              className="inline-block text-[0.75rem] mt-8 w-full bg-blue-400 py-2 rounded-full  hover:bg-blue-500 hover:text-white transition-all duration-300"
+              className="text-[0.75rem] mt-8 w-full bg-blue-400 py-2 rounded-full  hover:bg-blue-500 hover:text-white transition-all duration-300 flex justify-center items-center"
             >
-              Login to your account
+              {isLoading ? (
+                <ColorRing
+                  visible={true}
+                  height="25"
+                  width="25"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={["#fff", "#fff", "#fff", "#fff", "#fff"]}
+                />
+              ) : (
+                "Login to your account"
+              )}
             </button>
 
             {/* SSO Buttons */}
@@ -132,6 +209,16 @@ function LoginPage() {
           <img src={AuthImage} alt="auth-image" />
         </div>
       </div>
+
+      {/* Confetti */}
+
+      {loginSuccessful && (
+        <ReactConfetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          tweenDuration={5000}
+        />
+      )}
     </>
   );
 }

@@ -62,33 +62,35 @@ function SignupPage() {
 
               {/* Password input */}
 
-              <div className="space-y-1 relative">
+              <div className="space-y-1">
                 <label htmlFor="email" className="space-x-1">
                   <span className="text-[0.8rem] font-medium opacity-70">
                     Password
                   </span>
                   <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className={`w-full text-[0.75rem] border-[1.5px] py-2 px-4 rounded-lg outline-none transition-all duration-300 ${
-                    errors.password ? "border-red-300" : "border-gray-200"
-                  }`}
-                  placeholder="*****************"
-                  {...register("password", { required: true })}
-                  aria-invalid={errors.password ? "true" : "false"}
-                />
-                <span
-                  className="absolute top-1/2 right-4"
-                  role="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <VscEyeClosed size={20} />
-                  ) : (
-                    <VscEye size={20} />
-                  )}
-                </span>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className={`w-full text-[0.75rem] border-[1.5px] py-2 px-4 rounded-lg outline-none transition-all duration-300 ${
+                      errors.password ? "border-red-300" : "border-gray-200"
+                    }`}
+                    placeholder="*****************"
+                    {...register("password", { required: true })}
+                    aria-invalid={errors.password ? "true" : "false"}
+                  />
+                  <span
+                    className="absolute top-1/2 -translate-y-1/2 right-4"
+                    role="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <VscEyeClosed size={20} />
+                    ) : (
+                      <VscEye size={20} />
+                    )}
+                  </span>
+                </div>
                 {errors.password?.type === "required" && (
                   <p role="alert" className="text-[0.75rem] text-red-500">
                     Password is required
