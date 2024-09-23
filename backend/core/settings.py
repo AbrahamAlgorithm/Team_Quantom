@@ -17,6 +17,8 @@ DEBUG = os.environ.get("DEBUG") != False
 
 ALLOWED_HOSTS = []
 
+# custom user model
+AUTH_USER_MODEL = "account.User"
 
 # Application definition
 
@@ -29,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "account.apps.AccountConfig",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
