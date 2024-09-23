@@ -3,14 +3,20 @@ import { FcGoogle } from "react-icons/fc";
 import AuthImage from "../../assets/auth-image.png";
 import { IAuthInput } from "../../interfaces/auth.interface";
 import { Link } from "react-router-dom";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { useState } from "react";
 
 function SignupPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<IAuthInput>();
-  const onSubmit: SubmitHandler<IAuthInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IAuthInput> = async (data) => {
+    console.log({ data });
+  };
 
   return (
     <>
@@ -33,13 +39,13 @@ function SignupPage() {
 
               <div className="space-y-1">
                 <label htmlFor="email" className="space-x-1">
-                  <span className="text-sm font-medium opacity-70">Email</span>
+                  <span className="text-[0.8rem] font-medium opacity-70">Email</span>
                   <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className={`w-full text-sm border-[1.5px] py-2 px-3 rounded-lg outline-none transition-all duration-300 ${
+                  className={`w-full text-[0.75rem] border-[1.5px] py-2 px-3 rounded-lg outline-none transition-all duration-300 ${
                     errors.email ? "border-red-300" : "border-gray-200"
                   }`}
                   {...register("email", { required: true })}
@@ -54,22 +60,33 @@ function SignupPage() {
 
               {/* Password input */}
 
-              <div className="space-y-1">
+              <div className="space-y-1 relative">
                 <label htmlFor="email" className="space-x-1">
-                  <span className="text-sm font-medium opacity-70">
+                  <span className="text-[0.8rem] font-medium opacity-70">
                     Password
                   </span>
                   <span className="text-red-500">*</span>
                 </label>
                 <input
-                  type="email"
-                  className={`w-full text-sm border-[1.5px] py-2 px-4 rounded-lg outline-none transition-all duration-300 ${
+                  type={showPassword ? "text" : "password"}
+                  className={`w-full text-[0.75rem] border-[1.5px] py-2 px-4 rounded-lg outline-none transition-all duration-300 ${
                     errors.password ? "border-red-300" : "border-gray-200"
                   }`}
                   placeholder="*****************"
                   {...register("password", { required: true })}
                   aria-invalid={errors.password ? "true" : "false"}
                 />
+                <span
+                  className="absolute top-1/2 right-4"
+                  role="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <VscEyeClosed size={20} />
+                  ) : (
+                    <VscEye size={20} />
+                  )}
+                </span>
                 {errors.password?.type === "required" && (
                   <p role="alert" className="text-[0.75rem] text-red-500">
                     Password is required
@@ -80,7 +97,7 @@ function SignupPage() {
 
             <button
               type="submit"
-              className="inline-block text-sm mt-8 w-full bg-blue-400 py-2 rounded-full  hover:bg-blue-500 hover:text-white transition-all duration-300"
+              className="inline-block text-[0.75rem] mt-8 w-full bg-blue-400 py-2 rounded-full  hover:bg-blue-500 hover:text-white transition-all duration-300"
             >
               Create account
             </button>
@@ -92,13 +109,13 @@ function SignupPage() {
               type="button"
             >
               <FcGoogle size={20} />
-              <span className="text-sm">Sign in with Google</span>
+              <span className="text-[0.8rem]">Sign in with Google</span>
             </button>
           </form>
 
           {/* Auth footer */}
 
-          <footer className="mt-1 flex items-center justify-center gap-2 text-[0.75rem] mt-2">
+          <footer className="flex items-center justify-center gap-2 text-[0.75rem] mt-2">
             <span className="">Already signed up?</span>
             <Link
               to="/auth/login"
