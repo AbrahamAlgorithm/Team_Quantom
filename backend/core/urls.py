@@ -3,6 +3,11 @@ from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from account.v1.views import (
+        DecoratedTokenObtainPairView,
+        DecoratedTokenRefreshView,
+        DecoratedTokenBlacklistView
+        )
 
 # drf_yasg configurations
 schema_view = get_schema_view(
@@ -21,7 +26,14 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("account/", include("account.v1.urls")),
+    path("api/v1/account/", include("account.v1.urls")),
+
+    # authentication urls 
+    path('api/v1/token/', DecoratedTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/token/refresh/', DecoratedTokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/token/blacklist/', DecoratedTokenBlacklistView.as_view(), name='token_blacklist'),
+
+    # api documentation urls
     path(
         "swagger<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"
     ),
