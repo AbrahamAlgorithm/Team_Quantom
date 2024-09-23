@@ -14,9 +14,14 @@ function SignupPage() {
 
   return (
     <>
-      <div className="grid grid-cols-2 items-center min-h-screen max-[786px]:block">
-        <div className="w-[400px] max-[786px]:w-[initial] p-4 rounded-md mx-auto">
-          <h3 className="font-medium text-lg opacity-80">Get started now</h3>
+      <div className="grid grid-cols-2 items-center min-h-screen max-[768px]:flex max-[768px]:justify-center max-[768px]:items-center max-[768px]:mx-4 max-[768px]:py-4">
+        <div className="w-[400px] max-[786px]:w-full p-6 max-[768px]:p-4 mx-auto border border-gray-300 shadow-sm">
+          <header className="text-center">
+            <h2 className="text-center font-medium text-xl">DocTrim</h2>
+            <h3 className="font-medium text-[0.8rem] opacity-50 mt-2">
+              Create an account to get started
+            </h3>
+          </header>
 
           {/* Auth form */}
 
@@ -93,7 +98,7 @@ function SignupPage() {
 
           {/* Auth footer */}
 
-          <footer className="mt-1 flex items-center justify-center gap-2 text-[0.8rem]">
+          <footer className="mt-1 flex items-center justify-center gap-2 text-[0.75rem] mt-2">
             <span className="">Already signed up?</span>
             <Link
               to="/auth/login"
