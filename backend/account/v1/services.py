@@ -28,7 +28,4 @@ class AccountServices:
         return data
 
 
-
-
-
 account_service = AccountServices()
