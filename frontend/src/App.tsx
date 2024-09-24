@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import SignupPage from "./pages/authentication/SignupPage";
+import LoginPage from "./pages/authentication/LoginPage";
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
         <Route index element={<Navigate to="register" replace />} />
 
         <Route path="register" element={<SignupPage />} />
+        <Route path="login" element={<LoginPage />} />
       </Route>
     </Routes>
   );

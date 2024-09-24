@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useState } from "react";
 
-function SignupPage() {
+function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -25,7 +25,7 @@ function SignupPage() {
           <header className="text-center">
             <h2 className="text-center font-medium text-xl">DocTrim</h2>
             <h3 className="font-medium text-[0.8rem] opacity-50 mt-2">
-              Create an account to get started
+              Welcome Back, Sign In to Continue
             </h3>
           </header>
 
@@ -101,7 +101,7 @@ function SignupPage() {
               type="submit"
               className="inline-block text-[0.75rem] mt-8 w-full bg-blue-400 py-2 rounded-full  hover:bg-blue-500 hover:text-white transition-all duration-300"
             >
-              Create account
+              Login to your account
             </button>
 
             {/* SSO Buttons */}
@@ -118,12 +118,12 @@ function SignupPage() {
           {/* Auth footer */}
 
           <footer className="flex items-center justify-center gap-2 text-[0.75rem] mt-2">
-            <span className="">Already signed up?</span>
+            <span className="">Not signed up yet?</span>
             <Link
-              to="/auth/login"
+              to="/auth/register"
               className="text-blue-500 font-semibold hover:underline underline-offset-4"
             >
-              Sign in here
+              Create an account
             </Link>
           </footer>
         </div>
@@ -136,4 +136,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default LoginPage;
