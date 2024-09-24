@@ -41,12 +41,10 @@ def create_user(request: Request) -> Response:
     serializer.is_valid(raise_exception=True)
     serializer.save()
 
-    serialized_data = UserResponseSerializer(data=serializer.data)
-
     return success_response(
         message="User Created Successfully",
         status_code=status.HTTP_201_CREATED,
-        data=serialized_data.data,
+        data=serializer.data,
     )
 
 
@@ -71,12 +69,10 @@ def login(request: Request) -> Response:
 
     data = account_service.login(**serializer.data)
 
-    serialized_data = UserResponseSerializer(data=data)
-
     return success_response(
             message="Login Successfully",
             status_code=status.HTTP_200_OK,
-            data=serialized_data.data)
+            data=data)
 
 
 # Token documentation
