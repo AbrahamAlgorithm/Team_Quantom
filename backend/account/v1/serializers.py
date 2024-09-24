@@ -20,6 +20,15 @@ class CreateUserSerializer(serializers.HyperlinkedModelSerializer):
         )
         return user
 
+class UserResponseSerializer(serializers.ModelSerializer):
+    access_token = serializers.CharField()
+    refresh = serializers.CharField()
+
+    class Meta:
+        model = User
+        fields = ["id", "email", "access_token", "refresh"]
+
+
 class LoginUserSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()

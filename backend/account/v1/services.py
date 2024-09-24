@@ -9,7 +9,18 @@ User = get_user_model()
 class AccountServices:
     def create_user(self, email: str, password: str):
         user = User.objects.create_user(email=email, password=password)
-        return user
+        if user:
+            refresh = RefreshToken.for_user(user)
+            access_token = refresh.access_token
+
+        data = {
+                "id": user.id,
+                "email": user.email,
+                "access_token": str(access_token),
+                "refresh": str(refresh)
+                }
+
+        return data
 
 
     def login(self, email: str, password: str):
@@ -22,6 +33,8 @@ class AccountServices:
         access_token = refresh.access_token
 
         data = {
+                "id": user.id,
+                "email": user.email,
                 "refresh": str(refresh),
                 "access_token": str(access_token),
             }

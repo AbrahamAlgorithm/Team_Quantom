@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from account.v1.serializers import CreateUserSerializer, LoginUserSerializer
+from account.v1.serializers import CreateUserSerializer, LoginUserSerializer, UserResponseSerializer
 from account.v1.services import account_service
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
@@ -27,8 +27,8 @@ from account.v1.serializers import (
     request_body=CreateUserSerializer,
     responses={
         201: openapi.Response(
-            "Created Successfully",
-            CreateUserSerializer,
+            "User Created Successfully",
+            UserResponseSerializer,
         ),
         400: "Bad Request",
     },
@@ -41,12 +41,12 @@ def create_user(request: Request) -> Response:
     serializer.is_valid(raise_exception=True)
     serializer.save()
 
-    data = serializer.data
+    serialized_data = UserResponseSerializer(data=serializer.data)
 
     return success_response(
         message="User Created Successfully",
         status_code=status.HTTP_201_CREATED,
-        data=data,
+        data=serialized_data.data,
     )
 
 
@@ -57,7 +57,7 @@ def create_user(request: Request) -> Response:
         responses={
             201: openapi.Response(
                 "Login Successfully",
-                CreateUserSerializer,
+                UserResponseSerializer,
                 ),
             401: "Unauthorized: invalid user credentials",
             },
@@ -71,10 +71,12 @@ def login(request: Request) -> Response:
 
     data = account_service.login(**serializer.data)
 
+    serialized_data = UserResponseSerializer(data=data)
+
     return success_response(
             message="Login Successfully",
             status_code=status.HTTP_200_OK,
-            data=data)
+            data=serialized_data.data)
 
 
 # Token documentation
