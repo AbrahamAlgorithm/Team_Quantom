@@ -6,6 +6,7 @@ User = get_user_model()
 
 
 class CreateUserSerializer(serializers.HyperlinkedModelSerializer):
+
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -19,6 +20,15 @@ class CreateUserSerializer(serializers.HyperlinkedModelSerializer):
             email=data["email"], password=data["password"]
         )
         return user
+
+class UserResponseSerializer(serializers.ModelSerializer):
+    access_token = serializers.CharField()
+    refresh = serializers.CharField()
+
+    class Meta:
+        model = User
+        fields = ["id", "email", "access_token", "refresh"]
+
 
 class LoginUserSerializer(serializers.Serializer):
     email = serializers.EmailField()

@@ -8,12 +8,30 @@ User = get_user_model()
 
 class AccountServices:
     def create_user(self, email: str, password: str):
+        from account.v1.serializers import UserResponseSerializer
+
         user = User.objects.create_user(email=email, password=password)
-        return user
+        if user:
+            refresh = RefreshToken.for_user(user)
+            access_token = refresh.access_token
+
+        data = {
+                "id": user.id,
+                "email": user.email,
+                "access_token": str(access_token),
+                "refresh": str(refresh)
+                }
+
+        serializer = UserResponseSerializer(data=data)
+        serializer.is_valid()
+
+        return serializer.data
 
 
     def login(self, email: str, password: str):
-        user = authenticate(username=email, password=password)
+        from account.v1.serializers import UserResponseSerializer
+
+        user: User = authenticate(username=email, password=password)
 
         if user is None:
             raise AuthenticationFailed("Invalid Credentials")
@@ -22,10 +40,15 @@ class AccountServices:
         access_token = refresh.access_token
 
         data = {
+                "id": str(user.id),
+                "email": user.email,
                 "refresh": str(refresh),
                 "access_token": str(access_token),
             }
-        return data
+        serializer = UserResponseSerializer(data=data)
+        serializer.is_valid()
+
+        return serializer.data
 
 
 account_service = AccountServices()
