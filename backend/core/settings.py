@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG") != False
 
-ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app", "localhost"]
+ALLOWED_HOSTS = ["*"]
 
 # custom user model
 AUTH_USER_MODEL = "account.User"
@@ -24,6 +24,7 @@ AUTH_USER_MODEL = "account.User"
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -35,10 +36,12 @@ INSTALLED_APPS = [
     "drf_yasg",
     'rest_framework_simplejwt',
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -109,10 +112,9 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles", "static")
 
 # Default primary key field type
 
@@ -135,3 +137,8 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
