@@ -6,7 +6,7 @@ djangorestframework-simplejwt==5.3.1
 drf-yasg==1.21.7
 inflection==0.5.1
 packaging==24.1
-psycopg2==2.9.9
+psycopg2-binary==2.9.9
 PyJWT==2.9.0
 python-dotenv==1.0.1
 pytz==2024.2
