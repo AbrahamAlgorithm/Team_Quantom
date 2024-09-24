@@ -38,7 +38,6 @@ class AccountServices:
 
         refresh = RefreshToken.for_user(user)
         access_token = refresh.access_token
-        print(user.id)
 
         data = {
                 "id": str(user.id),
