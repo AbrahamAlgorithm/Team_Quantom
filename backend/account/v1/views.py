@@ -67,6 +67,8 @@ def login(request: Request) -> Response:
     serializer = LoginUserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
+    print(serializer.data)
+
     data = account_service.login(**serializer.data)
 
     return success_response(
