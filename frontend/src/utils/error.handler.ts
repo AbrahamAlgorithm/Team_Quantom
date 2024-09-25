@@ -6,9 +6,13 @@ const handleRequestError = (error: AxiosError) => {
     const { data, status } = error.response;
 
     if (status < 500) {
-      toast.error((data as any).detail);
+      if (status === 422) {
+        toast.error((data as any).errors[0].message);
+      } else {
+        toast.error((data as any).error);
+      }
     } else {
-        toast.error("Server error occurred, try again")
+      toast.error("Server error occurred, try again");
     }
   } else {
     console.log("Error", error.message);

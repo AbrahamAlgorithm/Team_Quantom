@@ -11,10 +11,11 @@ import axiosInstance from "../../utils/axiosInstance";
 import { ColorRing } from "react-loader-spinner";
 import handleRequestError from "../../utils/error.handler";
 import toast from "react-hot-toast";
+import authService from "../../utils/auth.service";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loginSuccessful, setLoginSuccessful] = useState<boolean>(false);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [windowDimension, setWindowDimension] = useState<IWindowDimension>({
     width: window.innerWidth,
@@ -50,17 +51,24 @@ function LoginPage() {
     setIsLoading(true);
 
     await axiosInstance
-      .post("/api/v1/auth/login/", data)
+      .post("/account/login/", data)
       .then((response) => {
-        console.log(response.data);
+        const { data } = response.data;
 
-        setLoginSuccessful(true);
+        // store user to local storage
+
+        authService.setAccessToken(data.access_token);
+        authService.setUser({ id: data.id, email: data.email });
 
         toast.success("Login successful, redirecting...");
+
+        // show confetti
+
+        setShowConfetti(true);
+
         setTimeout(() => {
           navigate("/dashboard");
         }, 3000);
-
         // clear form data
 
         if (loginFormRef.current) {
@@ -212,7 +220,7 @@ function LoginPage() {
 
       {/* Confetti */}
 
-      {loginSuccessful && (
+      {showConfetti && (
         <ReactConfetti
           width={window.innerWidth}
           height={window.innerHeight}
