@@ -1,11 +1,9 @@
-import AppNavbar from "../components/AppNavbar";
+import HeroSection from "../components/HeroSection";
 
 function Homepage() {
   return (
     <>
-      <AppNavbar />
-      
-      <div className=""></div>
+      <HeroSection />
     </>
   );
 }
