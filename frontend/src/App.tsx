@@ -3,20 +3,13 @@ import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import SignupPage from "./pages/authentication/SignupPage";
 import LoginPage from "./pages/authentication/LoginPage";
 import { Toaster } from "react-hot-toast";
+import Homepage from "./pages/Homepage";
 
 const App: React.FC = () => {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="container mx-auto p-4">
-              <h1 className="text-3xl font-bold mb-4">DocTrim</h1>
-              <p className="text-gray-600">Upload your PDF to get started!</p>
-            </div>
-          }
-        />
+        <Route path="/" element={<Homepage />} />
 
         <Route path="/auth" element={<Outlet />}>
           <Route index element={<Navigate to="register" replace />} />
