@@ -2,20 +2,80 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import AuthImage from "../../assets/auth-image.png";
 import { IAuthInput } from "../../interfaces/auth.interface";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axiosInstance";
+import handleRequestError from "../../utils/error.handler";
+import toast from "react-hot-toast";
+import ReactConfetti from "react-confetti";
+import { ColorRing } from "react-loader-spinner";
+import type { IWindowDimension } from "../../interfaces/globals.interface";
+import authService from "../../utils/auth.service";
 
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [windowDimension, setWindowDimension] = useState<IWindowDimension>({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<IAuthInput>();
+
+  const detechWindowSize = () => {
+    setWindowDimension({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    window.addEventListener("resize", detechWindowSize);
+    return () => window.removeEventListener("resize", detechWindowSize);
+  }, [windowDimension]);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   const onSubmit: SubmitHandler<IAuthInput> = async (data) => {
-    console.log({ data });
+    setIsLoading(true);
+
+    await axiosInstance
+      .post("/account/register/", data)
+      .then((response) => {
+        const { data } = response.data;
+
+        // store user to local storage
+
+        authService.setAccessToken(data.access_token);
+        authService.setUser({ id: data.id, email: data.email });
+
+        toast.success("Account created successfully");
+
+        // show confetti
+
+        setShowConfetti(true);
+
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 3000);
+      })
+      .catch((error) => {
+        handleRequestError(error);
+      });
+
+    setIsLoading(false);
   };
 
   return (
@@ -101,9 +161,21 @@ function SignupPage() {
 
             <button
               type="submit"
-              className="inline-block text-[0.75rem] mt-8 w-full bg-blue-400 py-2 rounded-full  hover:bg-blue-500 hover:text-white transition-all duration-300"
+              className="text-[0.75rem] mt-8 w-full bg-blue-400 py-2 rounded-full  hover:bg-blue-500 hover:text-white transition-all duration-300 flex justify-center items-center"
             >
-              Create account
+              {isLoading ? (
+                <ColorRing
+                  visible={true}
+                  height="25"
+                  width="25"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={["#fff", "#fff", "#fff", "#fff", "#fff"]}
+                />
+              ) : (
+                "Create account"
+              )}
             </button>
 
             {/* SSO Buttons */}
@@ -134,6 +206,16 @@ function SignupPage() {
           <img src={AuthImage} alt="auth-image" />
         </div>
       </div>
+
+      {/* Confetti */}
+
+      {showConfetti && (
+        <ReactConfetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          tweenDuration={5000}
+        />
+      )}
     </>
   );
 }
