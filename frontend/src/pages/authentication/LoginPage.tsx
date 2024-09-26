@@ -12,6 +12,7 @@ import { ColorRing } from "react-loader-spinner";
 import handleRequestError from "../../utils/error.handler";
 import toast from "react-hot-toast";
 import authService from "../../utils/auth.service";
+import Logo from "../../assets/logo.svg"
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -67,7 +68,7 @@ function LoginPage() {
         setShowConfetti(true);
 
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/");
         }, 3000);
         // clear form data
 
@@ -94,7 +95,9 @@ function LoginPage() {
       <div className="grid grid-cols-2 items-center min-h-screen max-[768px]:flex max-[768px]:justify-center max-[768px]:items-center max-[768px]:mx-4 max-[768px]:py-4">
         <div className="w-[400px] max-[786px]:w-full p-6 max-[768px]:p-4 mx-auto border border-gray-300 shadow-sm">
           <header className="text-center">
-            <h2 className="text-center font-medium text-xl">DocTrim</h2>
+            <h2 className="text-center font-medium text-xl">
+              <img src={Logo} alt="" className="w-[100px] mx-auto" />
+            </h2>
             <h3 className="font-medium text-[0.8rem] opacity-50 mt-2">
               Welcome Back, Sign In to Continue
             </h3>
