@@ -8,13 +8,13 @@ function Homepage() {
     <>
       <HeroSection />
 
-      <div className="w-[1024px] mx-auto mt-[3em] mb-[1.5em]">
+      <div className="w-[1024px] mx-auto mt-[3em] mb-[1.5em] max-[1050px]:w-[initial] max-[1050px]:mx-6 max-[550px]:mx-4">
         <h2 className="text-3xl opacity-60">How to use DocTrim</h2>
         <p className="text-sm opacity-75 mt-2">
           Easily using DocTrim in three simple steps:
         </p>
 
-        <div className="mt-12 grid grid-cols-3 gap-12">
+        <div className="mt-12 grid grid-cols-3 gap-12 max-[1050px]:gap-6 max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
           <div className="shadow p-6 border-2 border-slate-100 rounded-3xl h-max">
             <h3 className="font-medium text-lg opacity-90">
               1. Upload your PDF

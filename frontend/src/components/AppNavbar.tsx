@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function AppNavbar() {
   return (
     <header className="py-4 px-4 text-white">
-      <nav className="w-[1200px] mx-auto flex items-center justify-between">
+      <nav className="w-[1200px] mx-auto max-[1250px]:w-[initial] flex items-center justify-between">
         <div className="flex items-center gap-16">
           {/* Logo */}
 
@@ -13,7 +13,7 @@ function AppNavbar() {
 
           {/* Navigation links */}
 
-          <ul className="flex items-center gap-6 text-[0.85rem] backdrop-blur-sm text-[#f2f2f2] opacity-80">
+          <ul className="flex items-center gap-6 text-[0.85rem] backdrop-blur-sm text-[#f2f2f2] opacity-80 max-[655px]:hidden">
             <li>
               <Link
                 to=""
