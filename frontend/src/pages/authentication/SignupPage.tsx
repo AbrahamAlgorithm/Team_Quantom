@@ -12,6 +12,7 @@ import ReactConfetti from "react-confetti";
 import { ColorRing } from "react-loader-spinner";
 import type { IWindowDimension } from "../../interfaces/globals.interface";
 import authService from "../../utils/auth.service";
+import Logo from "../../assets/logo.svg"
 
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -68,7 +69,7 @@ function SignupPage() {
         setShowConfetti(true);
 
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/");
         }, 3000);
       })
       .catch((error) => {
@@ -83,7 +84,9 @@ function SignupPage() {
       <div className="grid grid-cols-2 items-center min-h-screen max-[768px]:flex max-[768px]:justify-center max-[768px]:items-center max-[768px]:mx-4 max-[768px]:py-4">
         <div className="w-[400px] max-[786px]:w-full p-6 max-[768px]:p-4 mx-auto border border-gray-300 shadow-sm">
           <header className="text-center">
-            <h2 className="text-center font-medium text-xl">DocTrim</h2>
+            <h2 className="text-center font-medium text-xl">
+              <img src={Logo} alt="" className="w-[100px] mx-auto" />
+            </h2>
             <h3 className="font-medium text-[0.8rem] opacity-50 mt-2">
               Create an account to get started
             </h3>
