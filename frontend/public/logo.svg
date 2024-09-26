@@ -1,0 +1,25 @@
+<svg
+  id="Layer_1"
+  data-name="Layer 1"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1512.64 471.2"
+>
+  <defs>
+    <style>
+      .cls-1,
+      .cls-2 {
+        fill: #2563eb;
+      }
+      .cls-2 {
+        font-size: 288.16px;
+        font-family: "Poppins";
+        font-weight: 300;
+      }
+    </style>
+  </defs>
+  <path
+    class="cls-1"
+    d="M285.86,242.66c0,103.69-64.18,192.38-155,228.54V324.93H0V0A247.12,247.12,0,0,1,40-3.23a245.37,245.37,0,0,1,90.92,17.35V209.65H283.66A248,248,0,0,1,285.86,242.66Z"
+  />
+  <text class="cls-2" transform="translate(354.55 300.89)">DocTrim</text>
+</svg>
