@@ -3,6 +3,7 @@ import { GoPlus } from "react-icons/go";
 import HeroSection from "../components/HeroSection";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
+import FAQ from "../components/FAQ";
 
 function Homepage() {
   return (
@@ -136,6 +137,7 @@ function Homepage() {
         </motion.div>
       </main>
 
+      <FAQ />
       <Footer />
     </div>
   );
