@@ -1,114 +1,176 @@
-import { Link } from "react-router-dom";
-import Logo from "../assets/logo.svg";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { CgMenuRight } from "react-icons/cg";
 import { useEffect, useRef, useState } from "react";
+import Logo from "../assets/logo.svg";
+
+const navItems = [
+  { name: 'Home', path: '/' },
+  { name: 'Features', path: '/features' },
+  { name: 'Pricing', path: '/pricing' },
+  { name: 'About', path: '/about' }
+];
 
 function AppNavbar() {
   const [showNav, setShowNav] = useState<boolean>(false);
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
   const navRef = useRef<HTMLUListElement | null>(null);
+  const location = useLocation();
 
-  const toggleNav = () => {
-    setShowNav(!showNav);
-  };
+  const toggleNav = () => setShowNav(!showNav);
 
   useEffect(() => {
-    const closeNavOnScroll = () => {
-      if (window.scrollY > 10) {
-        setShowNav(false);
-      }
+    const handleScroll = () => {
+      const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      setScrollProgress(scrollPercentage);
+      setScrolled(window.scrollY > 20);
+      if (window.scrollY > 10) setShowNav(false);
     };
 
-    window.addEventListener("scroll", closeNavOnScroll);
-
-    return () => {
-      window.removeEventListener("scroll", closeNavOnScroll);
-    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    const closeNavOnTap = (e: any) => {
-      if (navRef.current && !navRef.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setShowNav(false);
       }
     };
 
-    document.addEventListener("mousedown", closeNavOnTap);
-
-    return () => {
-      document.removeEventListener("mousedown", closeNavOnTap);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <header className="py-4 px-4 text-white">
-      <nav className="w-[1200px] mx-auto max-[1250px]:w-[initial] flex items-center justify-between relative">
-        <div className="flex items-center gap-16">
-          {/* Logo */}
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-gray-900/95 backdrop-blur-lg shadow-lg' 
+          : 'bg-transparent'
+      }`}
+    >
+      <motion.div 
+        className="h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 absolute bottom-0 left-0"
+        style={{ width: `${scrollProgress}%` }}
+      />
 
-          <Link to="/">
-            <img src={Logo} alt="" className="w-[120px]" />
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center h-20">
+          {/* Logo Section */}
+          <Link 
+            to="/" 
+            className="flex items-center space-x-2 -ml-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
+          >
+            <motion.img
+              whileHover={{ scale: 1.05 }}
+              src={Logo}
+              alt="DocTrim Logo"
+              className="h-9 w-auto"
+            />
           </Link>
 
-          {/* Navigation links */}
+          {/* Navigation Items - pushed to center */}
+          <div className="hidden md:flex flex-1 justify-center">
+            <ul className="flex space-x-8">
+              {navItems.map((item) => (
+                <motion.li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className="relative text-white/90 hover:text-white transition-colors px-3 py-2"
+                  >
+                    {item.name}
+                    {location.pathname === item.path && (
+                      <motion.div
+                        layoutId="underline"
+                        className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-400"
+                        initial={false}
+                      />
+                    )}
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
 
-          <ul
-            className={`flex items-center gap-6 text-[0.85rem] backdrop-blur-sm text-[#f2f2f2] opacity-80 max-[655px]:fixed max-[655px]:top-[4em] ${
-              showNav ? "max-[655px]:right-4" : "max-[655px]:-right-[400px]"
-            } max-[655px]:backdrop-blur-none max-[655px]:flex-col max-[655px]:bg-white max-[655px]:text-black max-[655px]:z-10 max-[655px]:p-4 max-[655px]:w-[150px] max-[655px]:items-start transition-all duration-300`}
-             ref={navRef}
+          {/* Auth Buttons - pushed to right */}
+          <div className="hidden md:flex items-center space-x-4">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/login"
+                className="text-white/90 hover:text-white transition-colors px-4 py-2"
+              >
+                Login
+              </Link>
+            </motion.div>
+            
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/signup"
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-2.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Sign Up
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleNav}
+            className="md:hidden text-white ml-auto p-2"
           >
-            <li>
-              <Link
-                to=""
-                className="hover:text-blue-700 transition-all duration-300"
-              >
-                Products
-              </Link>
-            </li>
-            <li className="">
-              <Link
-                to=""
-                className="hover:text-blue-700 transition-all duration-300"
-              >
-                Tools
-              </Link>
-            </li>
-            <li>
-              <Link
-                to=""
-                className="hover:text-blue-700 transition-all duration-300"
-              >
-                Pricing
-              </Link>
-            </li>
-            <li className="hover:text-blue-700 transition-all duration-300">
-              <Link to="">FAQ</Link>
-            </li>
-          </ul>
+            <CgMenuRight className="h-6 w-6" />
+          </motion.button>
         </div>
+      </div>
 
-        {/* Auth links */}
-
-        <div className="flex items-center gap-2">
-          <Link
-            to="/auth/register"
-            className="text-[0.8rem] bg-blue-500 text-white hover:bg-blue-600 transition-all duration-300 py-2 px-6 rounded-full max-[400px]:hidden"
+      <AnimatePresence>
+        {showNav && (
+          <motion.ul
+            ref={navRef}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-16 inset-x-0 mx-4 rounded-xl bg-white/10 backdrop-blur-lg md:hidden divide-y divide-white/10 shadow-xl"
           >
-            Sign up
-          </Link>
-          <Link
-            to="/auth/login"
-            className="text-[0.8rem] border border-slate-300 hover:bg-[#f2f2f2] hover:text-black transition-all duration-300 py-2 px-6 rounded-full"
-          >
-            Login
-          </Link>
-
-          <button className="min-[656px]:hidden" onClick={toggleNav}>
-            <CgMenuRight size={25} />
-          </button>
-        </div>
-      </nav>
-    </header>
+            {navItems.map((item) => (
+              <motion.li
+                key={item.path}
+                whileHover={{ x: 10 }}
+                className="first:rounded-t-xl"
+              >
+                <Link
+                  to={item.path}
+                  className={`block px-6 py-4 text-white hover:text-blue-400 transition-all ${
+                    location.pathname === item.path ? 'bg-white/5' : ''
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              </motion.li>
+            ))}
+            <div className="p-6 space-y-3">
+              <Link
+                to="/login"
+                className="block w-full text-center text-white border border-white/20 py-3 px-6 rounded-lg hover:bg-white/5 transition-all"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="block w-full text-center bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl"
+              >
+                Sign Up
+              </Link>
+            </div>
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 }
 

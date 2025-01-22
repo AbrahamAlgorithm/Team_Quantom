@@ -2,78 +2,142 @@ import { MdUploadFile } from "react-icons/md";
 import { GoPlus } from "react-icons/go";
 import HeroSection from "../components/HeroSection";
 import Footer from "../components/Footer";
+import { motion } from "framer-motion";
 
 function Homepage() {
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <HeroSection />
 
-      <div className="w-[1024px] mx-auto mt-[3em] mb-[1.5em] max-[1050px]:w-[initial] max-[1050px]:mx-6 max-[550px]:mx-4">
-        <h2 className="text-3xl opacity-60">How to use DocTrim</h2>
-        <p className="text-sm opacity-75 mt-2">
-          Easily using DocTrim in three simple steps:
-        </p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pb-32">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">
+            How to use <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">DocTrim</span>
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Transform your documents in three simple steps
+          </p>
+        </motion.div>
 
-        <div className="mt-12 grid grid-cols-3 gap-12 max-[1050px]:gap-6 max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
-          <div className="shadow p-6 border-2 border-slate-100 rounded-3xl h-max">
-            <h3 className="font-medium text-lg opacity-90">
-              1. Upload your PDF
-            </h3>
-            <p className="mt-4 text-sm font-light opacity-80">
-              Drag and drop your PDF file into the AI PDF Summarizer, or enter
-              the PDF URL. You can also upload directly from Google Drive
-              (coming soon).
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {/* Step 1 */}
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+          >
+            <div className="flex items-center mb-4">
+              <motion.span 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="bg-blue-100 p-3 rounded-full"
+              >
+                <MdUploadFile className="w-6 h-6 text-blue-600" />
+              </motion.span>
+              <h3 className="ml-4 text-xl font-semibold text-gray-800">
+                1. Upload PDF
+              </h3>
+            </div>
+            <p className="text-gray-600 leading-relaxed">
+              Drag and drop your PDF file or enter a URL. Google Drive integration available.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="shadow p-6 border-2 border-slate-100 rounded-3xl h-max">
-            <h3 className="font-medium text-lg opacity-90">
-              2. Upload your PDF
-            </h3>
-            <p className="mt-4 text-sm font-light opacity-80">
-              DChoose from a range of AI-powered features such as summarizing
-              the PDF document, extracting PDF to text, ask your PDF or chat PDF
-              with AI, translating PDF content, generating mind maps from PDF,
-              or read PDF with the AI PDF Reader.
+          {/* Step 2 */}
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+          >
+            <div className="flex items-center mb-4">
+              <motion.span 
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="bg-purple-100 p-3 rounded-full"
+              >
+                <MdUploadFile className="w-6 h-6 text-purple-600" />
+              </motion.span>
+              <h3 className="ml-4 text-xl font-semibold text-gray-800">
+                2. Choose Features
+              </h3>
+            </div>
+            <p className="text-gray-600 leading-relaxed">
+              Select from our AI tools: summarize, extract text, translate, or generate mind maps.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="shadow p-6 border-2 border-slate-100 rounded-3xl h-max">
-            <h3 className="font-medium text-lg opacity-90">
-              3. Upload your PDF
-            </h3>
-            <p className="mt-4 text-sm font-light opacity-80">
-              Save the summarized content, extracted text, or generated mind
-              maps. You can also share your results with friends or colleagues
-              for collaborative learning and discussion.
+          {/* Step 3 */}
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+            className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+          >
+            <div className="flex items-center mb-4">
+              <motion.span 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="bg-green-100 p-3 rounded-full"
+              >
+                <MdUploadFile className="w-6 h-6 text-green-600" />
+              </motion.span>
+              <h3 className="ml-4 text-xl font-semibold text-gray-800">
+                3. Get Results
+              </h3>
+            </div>
+            <p className="text-gray-600 leading-relaxed">
+              Download processed documents instantly. Share results or save for later.
             </p>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="mt-[5em] h-max py-12 rounded-3xl hover:bg-blue-50 transition-all duration-300 p-6 border border-spacing-10 border-dashed border-blue-500 flex items-center justify-center flex-col gap-4">
-          <span className="text-5xl">
-            <MdUploadFile color="" />
-          </span>
-
-          <p className="opacity-80">Drap and Drop a file</p>
-
-          <div className="flex items-center gap-2">
-            <hr className="w-[200px]" />
-            <span className="text-blue-300">or</span>
-            <hr className="w-full" />
+        {/* Upload Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="max-w-3xl mx-auto mt-16 bg-white p-12 rounded-3xl shadow-lg border border-gray-100"
+        >
+          <div className="flex flex-col items-center justify-center gap-6">
+            <motion.span 
+              whileHover={{ scale: 1.1 }}
+              className="bg-blue-50 p-4 rounded-full cursor-pointer"
+            >
+              <MdUploadFile className="w-8 h-8 text-blue-600" />
+            </motion.span>
+            <p className="text-lg text-gray-600">Drag and Drop a file</p>
+            <div className="flex items-center gap-4 w-full max-w-md">
+              <hr className="flex-1 border-gray-200" />
+              <span className="text-gray-500">or</span>
+              <hr className="flex-1 border-gray-200" />
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-medium flex items-center gap-3 transition-all duration-300"
+            >
+              <GoPlus className="w-5 h-5" />
+              <span>Choose a file</span>
+            </motion.button>
           </div>
-
-          <button className="bg-blue-500 hover:bg-blue-600 transition-all duration-300 text-white py-3 px-8 rounded-md text-sm flex items-center gap-2">
-            <span className="">
-              <GoPlus size={20} />
-            </span>
-            <span>Choose a file</span>
-          </button>
-        </div>
-      </div>
+        </motion.div>
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
 
