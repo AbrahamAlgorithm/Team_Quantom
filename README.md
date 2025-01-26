@@ -20,7 +20,7 @@ DocTrim is a web application that allows students to upload bulky PDF handouts a
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/DocTrim.git
+    git clone https://github.com/AbrahamAlgorithm/Team_Quantom.git
     ```
 
 2. Navigate to the project directory:
